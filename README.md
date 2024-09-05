@@ -17,3 +17,6 @@ A implementação inclui as seguintes operações sobre a lista dinâmica:
 ## Como Compilar e Executar
 ```bash
 g++ lista_dinamica.cpp -o lista_dinamica
+```
+```bash
+./lista_dinamica

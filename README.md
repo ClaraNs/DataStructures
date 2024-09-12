@@ -54,7 +54,7 @@ Uma **pilha** (do inglês, **stack**) é uma estrutura de dados linear que segue
 ### Aplicações:
 
 - Recursão;
-- Avaliação e análise de expressões;
+- Avaliação e análise de expressões, incluindo validação de sequências bem formadas (parênteses balanceados). [Veja o código](pilha_dinamica/pilha_bem_formada.cpp);
 - Busca em profundidade (DFS);
 - Operações de desfazer/refazer (Undo/Redo);
 - Histórico do navegador;

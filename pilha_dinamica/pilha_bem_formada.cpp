@@ -6,15 +6,15 @@ class Node
 {
     public:
         // Construtor
-        Node(int valor) : dado(valor), prox(nullptr) {}
+        Node(char valor) : dado(valor), prox(nullptr) {}
 
         // Métodos
-        int obterDado();
+        char obterDado();
         Node* obterProximo();
         void setaProximo(Node *p);
 
     private:
-        int dado;
+        char dado;
         Node *prox;
 };
 
@@ -28,7 +28,7 @@ class Pilha
             tamanho = 0;
         }
 
-        Pilha(int dado)
+        Pilha(char dado)
         {
             inicio = new Node(dado);
             tamanho++;
@@ -45,17 +45,19 @@ class Pilha
         }
 
         // Métodos
-        void push(int valor);
+        void push(char valor);
         void pop();
         bool isEmpty();
         void imprimePilha();
+        bool bemFormada(string str);
+        char top();
 
     private:
         Node *inicio;
         int tamanho;
 };
 
-int Node::obterDado()
+char Node::obterDado()
 {
     return dado;
 }
@@ -76,7 +78,7 @@ bool Pilha::isEmpty(){
     return false;
 }
 
-void Pilha::push(int valor) //O(1)
+void Pilha::push(char valor) //O(1)
 {
     Node *novo = new Node(valor);
     novo->setaProximo(inicio);
@@ -99,7 +101,7 @@ void Pilha::imprimePilha()
 {   
     if (isEmpty())
     {
-        cout << " Pilha vazia.\n";
+        cout << "Pilha vazia.\n";
         return;
     }
     
@@ -109,61 +111,59 @@ void Pilha::imprimePilha()
 
     while (aux != nullptr)
     {
-        cout << aux->obterDado();
-
-        if(aux == inicio)
-            cout << " [TOPO]";
-        
+        cout << aux->obterDado() << "\n";
         aux = aux->obterProximo();
-        cout << "\n";
     }
 
     cout << "\nQuantidade de elemento(s):" << tamanho << "\n";
 }
 
+char Pilha::top(){
+    if(!isEmpty())
+        return inicio->obterDado();
+    return '\0';
+}
+
+bool Pilha::bemFormada(string str){
+    for(int i = 0; i < str.size(); i++){
+
+        if(str[i] == ' ')
+            continue;
+
+        if(str[i] == '(' || str[i] == '{')
+            push(str[i]);
+
+        if(str[i] == ')'){
+            if(top() ==  '(')
+                pop();
+            else
+                return false;
+        }
+
+        if(str[i] == '}'){
+            if(top() == '{')
+                pop();
+            else
+                return false;
+        }
+    }
+
+    return isEmpty();
+}
+
 int main()
 {
     Pilha pilha;
+    string seq;
 
-    int opcao, valor, posicao;
+    cout << "Entre com a sequência: ";
+    //cin >> seq;
+    getline(cin, seq);
 
-    do
-    {
-        cout << "\n--- Menu ---\n";
-        cout << "1. Inserir elemento na pilha\n";
-        cout << "2. Remover elementon da pilha\n";
-        cout << "3. Imprimir Pilha\n";
-        cout << "4. Sair\n";
-        cout << "Escolha uma opção: ";
-        cin >> opcao;
-
-        switch (opcao)
-        {
-        case 1:
-            cout << "\nDigite o valor a inserir: ";
-            cin >> valor;
-            pilha.push(valor);
-            pilha.imprimePilha();
-            break;
-
-        case 2:
-            cout << "\nRemovido um elemento:";
-            pilha.pop();
-            pilha.imprimePilha();
-            break;
-
-        case 3:
-            pilha.imprimePilha();
-            break;
-
-        case 4:
-            cout << "\nSaindo...\n";
-            break;
-
-        default:
-            cout << "\nOpção inválida!\n";
-        }
-    } while(opcao != 4);
+    if(pilha.bemFormada(seq))
+        cout << "Sequência correta." << endl;
+    else
+        cout << "Sequência INCORRETA." << endl;
 
     return 0;
 }
